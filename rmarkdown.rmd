@@ -1,0 +1,28 @@
+plot_ly(accident_count) %>%
+    add_trace(x = ~Date, y = ~Slight, type="scatter", mode = "markers", 
+              name = "slight", legendgroup = "slight", 
+              marker = list(color = "#52A9BD")) %>%
+    add_trace(x = ~Date, y = ~Serious, type="scatter", mode = "markers",
+              name = "serious", legendgroup = "serious", 
+              marker = list(color = "#FFF16B")) %>%
+    add_trace(x = ~Date, y = ~Fatal, type="scatter", mode = "markers",
+              name = "fatal", legendgroup = "fatal", 
+              marker = list(color = "#F5677D")) %>%
+    add_trace(x = as.Date(loess_slight$x), y = fitted(loess_slight),
+              type="scatter", mode = "lines",
+              line = list(color = '#1A7A90'), 
+              name = "slight Loess smoother", legendgroup = "slight", 
+              hoverinfo = 'none', showlegend = FALSE) %>%
+    add_trace(x = as.Date(loess_serious$x), y = fitted(loess_serious),
+              type="scatter", mode = "lines",
+              line = list(color = '#E9D625'),
+              name = "serious Loess smoother", legendgroup = "serious",
+              hoverinfo = 'none', showlegend = FALSE) %>%
+    add_lines(x = as.Date(loess_fatal$x), y = fitted(loess_fatal),
+              type="scatter", mode = "lines",
+              line = list(color = '#DC2340'),
+              name = "fatal Loess smoother", legendgroup = "fatal",
+              hoverinfo = 'none', showlegend = FALSE) %>%
+    layout(xaxis = list(title = "Year"),
+           yaxis = list(title = "Number of Accidents")
+    )
